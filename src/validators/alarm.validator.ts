@@ -2,7 +2,7 @@ import { body, param } from 'express-validator';
 
 export const CreateAlarmValidator = [
   body('name').isString(),
-  body('alarmDate').isDate(),
+  body('alarmDate').isISO8601(),
   body('recurrent').isBoolean(),
   body('weekend').isBoolean(),
 ];
