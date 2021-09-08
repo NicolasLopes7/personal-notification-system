@@ -19,6 +19,9 @@ TODO:
  
  ## How to run
  Ensure that you have node.js and docker setupped,
- after that you only need to run `docker-compose --build` and the application are running :)
+ * Copy the content of `.env.example` and paste in `.env` with the values that you want
+ * Run `docker-compose up --build`
+ * Your application are running 😃
+
 > You can install [node](https://nodejs.org/en/) and [docker](https://docs.docker.com/desktop/windows/install/) in these links
  
