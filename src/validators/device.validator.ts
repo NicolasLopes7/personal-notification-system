@@ -7,4 +7,4 @@ export const createDeviceValidator = [
 
 export const deactivateDeviceValidator = [param('id').isNumeric()];
 
-export const getDevicesValidator = [query(['active']).isBoolean()];
+export const getDevicesValidator = [query(['active']).isBoolean().optional()];

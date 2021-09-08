@@ -11,7 +11,7 @@ const stringifyQueryParams = (queryObject: Object) => {
 };
 
 const stringifyBodyParams = (body: Object) =>
-  !!Object.keys(body) ? `- ${JSON.stringify(body)}` : '';
+  !!Object.keys(body).length ? `- ${JSON.stringify(body)}` : '';
 
 export default (req: Request, res: Response, next: NextFunction) => {
   const { method, path, query, body } = req;
