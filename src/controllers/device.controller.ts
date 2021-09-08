@@ -1,37 +1,41 @@
 import { Request, Response } from 'express';
 
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import DeviceService from '../services/device.service';
 
 class DeviceController {
   async create(req: Request, res: Response) {
-    const { name, type } = req.body;
+    const payload = req.body;
 
-    const createdDevice = await prisma.device.create({
-      data: {
-        name,
-        type,
-      },
-    });
-    return res.json({
-      device: createdDevice,
-    });
+    try {
+      const createdDevice = await DeviceService.create(payload);
+      return res.json({
+        device: createdDevice,
+      });
+    } catch (error) {
+      return res.sendStatus(500);
+    }
   }
 
   async deactivate(req: Request, res: Response) {
     const { id } = req.params;
 
-    await prisma.device.update({
-      data: {
-        active: false,
-      },
-      where: {
-        id: Number(id),
-      },
-    });
+    try {
+      await DeviceService.deactivate({ id: Number(id) });
+      return res.sendStatus(200);
+    } catch (error) {
+      return res.sendStatus(500);
+    }
+  }
 
-    return res.sendStatus(200);
+  async get(req: Request, res: Response) {
+    const filters = req.query;
+
+    try {
+      const devices = await DeviceService.get(filters);
+      return res.json({ devices });
+    } catch (error) {
+      return res.sendStatus(500);
+    }
   }
 }
 
