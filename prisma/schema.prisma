@@ -1,0 +1,49 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+model Alarm {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.VarChar
+  alarmDate String
+  recurrent Boolean  @default(false)
+  weekend   Boolean  @default(false)
+}
+
+model Device {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  type        DeviceType
+  name        String
+  active      Boolean      @default(true)
+  alarmEvents AlarmEvent[]
+}
+
+model AlarmEvent {
+  id         Int       @id @default(autoincrement())
+  type       AlarmType
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  interacted Boolean   @default(false)
+  device     Device    @relation(fields: [deviceId], references: [id])
+  deviceId   Int
+}
+
+enum DeviceType {
+  cellphone
+  computer
+}
+
+enum AlarmType {
+  cellphone
+  computer
+}
