@@ -10,3 +10,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
     - ${DB_PORT}:5432
+
+  redis-queue:
+    container_name: personal-notification-redis
+    image: redis
+    ports:
+    - 6379:6379
