@@ -9,13 +9,14 @@ generator client {
 }
 
 model Alarm {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @db.VarChar
-  alarmDate String
-  recurrent Boolean  @default(false)
-  weekend   Boolean  @default(false)
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  name        String       @db.VarChar
+  alarmDate   String
+  recurrent   Boolean      @default(false)
+  weekend     Boolean      @default(false)
+  alarmEvents AlarmEvent[]
 }
 
 model Device {
@@ -35,7 +36,9 @@ model AlarmEvent {
   updatedAt  DateTime  @updatedAt
   interacted Boolean   @default(false)
   device     Device    @relation(fields: [deviceId], references: [id])
+  alarm      Alarm     @relation(fields: [alarmId], references: [id])
   deviceId   Int
+  alarmId    Int
 }
 
 enum DeviceType {
