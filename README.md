@@ -26,8 +26,10 @@ Ensure that you have node.js and docker setupped,
 - Copy the content of `.env.example` and paste in `.env` with the values that you want
 - Run `docker-compose up --build`
 - Run `yarn`
-- Run `Prisma Generate`, if you're not on MacOS system, remove the line 8 of `prisma/schema.prisma` with the content `binaryTargets = ["native"]`
+- Run `Prisma Generate`
 - Run `yarn dev`
 - Your application are running 😃
+
+>  if you're not on MacOS system, remove the line 8 of `prisma/schema.prisma` with the content `binaryTargets = ["native"]`
 
 > You can install [node](https://nodejs.org/en/) and [docker](https://docs.docker.com/desktop/windows/install/) in these links
