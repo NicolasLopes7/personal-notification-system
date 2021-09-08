@@ -14,5 +14,6 @@ services:
   redis-queue:
     container_name: personal-notification-redis
     image: redis
+    command: redis-server
     ports:
     - 6379:6379

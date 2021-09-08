@@ -4,13 +4,25 @@ import {
   GetAlarmDTO,
   UpdateAlarmDTO,
 } from '../interfaces/alarm.interface';
+import alarmQueue from '../queues/alarm.queue';
 
 const prisma = new PrismaClient();
 class AlarmService {
   async create({ payload, options }: CreateAlarmDTO) {
     const alarm = await prisma.alarm.create({
-      data: { ...payload, ...options },
+      data: {
+        ...payload,
+        ...options,
+      },
     });
+
+    alarmQueue.add(
+      {
+        name: 'test',
+        deviceId: 1,
+      },
+      { delay: 5000 }
+    );
 
     return alarm;
   }

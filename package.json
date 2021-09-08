@@ -8,9 +8,11 @@
     "docker:dev": "npm install && prisma generate && npm run dev"
   },
   "devDependencies": {
+    "@types/bull": "^3.15.4",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/express-validator": "^3.0.0",
+    "@types/mqtt": "^2.5.0",
     "@types/node": "^16.7.13",
     "nodemon": "^2.0.12",
     "prisma": "3.0.1",
@@ -19,8 +21,11 @@
   },
   "dependencies": {
     "@prisma/client": "^3.0.1",
+    "bull": "^3.29.2",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-validator": "^6.12.1"
+    "express-validator": "^6.12.1",
+    "mqtt": "^4.2.8"
   }
 }
