@@ -14,3 +14,8 @@ export const UpdateAlarmValidator = [
   body('recurrent').isBoolean().optional(),
   body('weekend').isBoolean().optional(),
 ];
+
+export const AlarmPostbackValidator = [
+  param('id').isNumeric(),
+  body('interacted').isBoolean(),
+];

@@ -16,6 +16,7 @@ model Alarm {
   alarmDate   String
   recurrent   Boolean      @default(false)
   weekend     Boolean      @default(false)
+  finished    Boolean      @default(false)
   alarmEvents AlarmEvent[]
 }
 

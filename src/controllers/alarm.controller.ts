@@ -51,6 +51,10 @@ class AlarmController {
       return res.sendStatus(500);
     }
   }
+
+  async postback(req: Request, res: Response) {
+    
+  }
 }
 
 export default new AlarmController();
