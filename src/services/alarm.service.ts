@@ -37,10 +37,11 @@ class AlarmService {
     return alarms;
   }
 
-  async update({ id, payload }: UpdateAlarmDTO) {
+  async update({ id, payload, attributes }: UpdateAlarmDTO) {
     const alarm = await prisma.alarm.update({
       data: payload,
       where: { id },
+      select: attributes,
     });
 
     return alarm;

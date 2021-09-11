@@ -12,7 +12,7 @@ const routes = Router();
 
 routes.post('/', CreateAlarmValidator, validate, AlarmController.create);
 routes.post(
-  '/postback:id',
+  '/postback/:id',
   AlarmPostbackValidator,
   validate,
   AlarmController.postback

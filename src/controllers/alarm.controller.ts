@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 import AlarmService from '../services/alarm.service';
+import AlarmEventService from '../services/alarmEvent.service';
+
+type UpdateAlarm = { alarmEvents: [{ id: number }] };
 
 class AlarmController {
   async create(req: Request, res: Response) {
@@ -53,7 +56,33 @@ class AlarmController {
   }
 
   async postback(req: Request, res: Response) {
+    const { id } = req.params;
+    const { interacted } = req.body;
+
+    if (!interacted) {
+      //send message to telegram
+    }
     
+    const alarm = (await AlarmService.update({
+      id: Number(id),
+      payload: {
+        finished: true,
+      },
+      attributes: {
+        alarmEvents: true,
+      },
+    })) as UpdateAlarm;
+
+    await Promise.all(
+      alarm.alarmEvents.map((alarmEvent) =>
+        AlarmEventService.update({
+          id: alarmEvent.id,
+          payload: { interacted: true },
+        })
+      )
+    );
+
+    return res.sendStatus(200);
   }
 }
 

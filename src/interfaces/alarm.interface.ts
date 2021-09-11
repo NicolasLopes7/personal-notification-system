@@ -23,6 +23,18 @@ export interface UpdateAlarmDTO {
     alarmDate?: string;
     recurrent?: boolean;
     weekend?: boolean;
+    finished?: boolean;
+  };
+  attributes?: {
+    id?: boolean;
+    name?: boolean;
+    alarmDate?: boolean;
+    recurrent?: boolean;
+    weekend?: boolean;
+    finished?: boolean;
+    alarmEvents?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
   };
 }
 
