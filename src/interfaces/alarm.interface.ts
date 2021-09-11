@@ -1,3 +1,6 @@
+import { DeviceType } from '.prisma/client';
+import moment from 'moment';
+
 export interface CreateAlarmDTO {
   payload: {
     name: string;
@@ -10,7 +13,7 @@ export interface CreateAlarmDTO {
 }
 
 export interface GetAlarmDTO {
-  id: number;
+  id?: number;
 }
 
 export interface UpdateAlarmDTO {
@@ -20,5 +23,32 @@ export interface UpdateAlarmDTO {
     alarmDate?: string;
     recurrent?: boolean;
     weekend?: boolean;
+  };
+}
+
+export interface AddAlarmJobDTO {
+  alarm: {
+    id: number;
+    name: string;
+    recurrent: boolean;
+    weekend: boolean;
+    alarmDate: moment.Moment | string;
+  };
+  device: {
+    id: number;
+    type: DeviceType;
+  };
+}
+
+export interface AlarmJobDTO {
+  device: {
+    id: number;
+    type: DeviceType;
+  };
+  alarm: {
+    id: number;
+    name: string;
+    recurrent: boolean;
+    weekend: boolean;
   };
 }

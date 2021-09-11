@@ -16,9 +16,11 @@ const stringifyBodyParams = (body: Object) =>
 export default (req: Request, res: Response, next: NextFunction) => {
   const { method, path, query, body } = req;
 
-  const queryParams = stringifyQueryParams(query);
-  const bodyParams = stringifyBodyParams(body);
-  console.log(`[${method}] - ${path}${queryParams} ${bodyParams}`);
+  if (!path.match(/admin/g)) {
+    const queryParams = stringifyQueryParams(query);
+    const bodyParams = stringifyBodyParams(body);
+    console.log(`[${method}] - ${path}${queryParams} ${bodyParams}`);
+  }
 
   next();
 };

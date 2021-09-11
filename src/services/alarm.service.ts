@@ -1,10 +1,12 @@
-import { PrismaClient } from '.prisma/client';
+import { PrismaClient } from '@prisma/client';
 import {
   CreateAlarmDTO,
   GetAlarmDTO,
   UpdateAlarmDTO,
 } from '../interfaces/alarm.interface';
-import alarmQueue from '../queues/alarm.queue';
+
+import DeviceService from './device.service';
+import AlarmQueueService from './alarmQueue.service';
 
 const prisma = new PrismaClient();
 class AlarmService {
@@ -16,18 +18,17 @@ class AlarmService {
       },
     });
 
-    alarmQueue.add(
-      {
-        name: 'test',
-        deviceId: 1,
-      },
-      { delay: 5000 }
-    );
+    const [computerDevice] = await DeviceService.get({
+      filters: { type: 'computer' },
+      options: { first: true },
+    });
+
+    AlarmQueueService.add({ alarm, device: computerDevice });
 
     return alarm;
   }
 
-  async get({ id }: GetAlarmDTO) {
+  async get(id?: number) {
     const alarms = await prisma.alarm.findMany({
       include: { alarmEvents: true },
       where: { id },

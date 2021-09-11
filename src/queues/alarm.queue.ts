@@ -1,57 +1,37 @@
-import { PrismaClient, DeviceType } from '@prisma/client';
-import moment from 'moment';
 import Queue from 'bull';
-import mqtt from 'mqtt';
 import redisConfig from '../config/redis';
+import { AlarmJobDTO } from '../interfaces/alarm.interface';
+import MQTTService from '../services/mqtt.service';
+import AlarmEventService from '../services/alarmEvent.service';
+import { getRemainingDays } from '../utils/alarmQueue.utils';
 
-const DAY_IN_MS = 24 * 60 * 60;
+const DAY_IN_MS = 8.64 * Math.pow(10, 7);
 
-interface SendAlarmJobData {
-  device: {
-    id: number;
-    type: DeviceType;
-  };
-  alarm: {
-    id: number;
-    name: string;
-    recurrent: boolean;
-    weekend: true;
-  };
-}
-
+const mqttService = new MQTTService();
 const alarmQueue = new Queue('send alarm', {
   redis: redisConfig,
 });
 
 alarmQueue.process(async (job) => await sendAlarm(job.data));
 
-async function sendAlarm({ device, alarm }: SendAlarmJobData) {
-  const mqttClient = mqtt.connect('mqtt://broker.hivemq.com');
-  const prisma = new PrismaClient();
-
-  mqttClient.on('connect', () => {
-    mqttClient.publish(`personal-notification-system/${device.id}`, alarm.name);
-  });
+async function sendAlarm({ device, alarm }: AlarmJobDTO) {
+  mqttService.sendMessageToTopic(
+    device.id,
+    JSON.stringify({
+      id: alarm.id,
+      name: alarm.name,
+    })
+  );
 
   if (alarm.recurrent) {
-    let remainingDays = 1;
-
-    const tomorrow = moment().add(1, 'days');
-    const isWeekend = tomorrow.day() % 6 === 0;
-
-    if (!alarm.weekend && isWeekend) {
-      remainingDays += tomorrow.day() === 6 ? 2 : 1;
-    }
-
+    const remainingDays = getRemainingDays(alarm);
     alarmQueue.add({ device, alarm }, { delay: DAY_IN_MS * remainingDays });
   }
 
-  await prisma.alarmEvent.create({
-    data: {
-      type: device.type,
-      alarmId: alarm.id,
-      deviceId: device.id,
-    },
+  await AlarmEventService.create({
+    alarmId: alarm.id,
+    deviceId: device.id,
+    type: device.type,
   });
 }
 

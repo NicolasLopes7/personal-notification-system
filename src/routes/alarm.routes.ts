@@ -11,6 +11,7 @@ const routes = Router();
 
 routes.post('/', CreateAlarmValidator, validate, AlarmController.create);
 routes.get('/:id', GetAlarmValidator, validate, AlarmController.get);
+routes.get('/', AlarmController.index)
 routes.put('/:id', UpdateAlarmValidator, validate, AlarmController.update);
 
 export default routes;

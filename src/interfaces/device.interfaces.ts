@@ -12,5 +12,9 @@ export interface DeactivateDeviceDTO {
 export interface GetDevicesDTO {
   filters?: {
     active?: boolean;
+    type?: DeviceType;
+  };
+  options?: {
+    first?: boolean;
   };
 }

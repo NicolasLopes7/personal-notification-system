@@ -30,9 +30,10 @@ class DeviceService {
     });
   }
 
-  async get({ filters }: GetDevicesDTO) {
+  async get({ filters, options }: GetDevicesDTO) {
     const devices = await prisma.device.findMany({
       where: filters,
+      take: options?.first ? 1 : undefined,
     });
 
     return devices;

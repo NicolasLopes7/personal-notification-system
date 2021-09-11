@@ -18,8 +18,17 @@ class AlarmController {
     const { id } = req.params;
 
     try {
-      const alarm = await AlarmService.get({ id: Number(id) });
+      const alarm = await AlarmService.get(Number(id));
       return res.json({ alarm });
+    } catch (error) {
+      return res.sendStatus(500);
+    }
+  }
+
+  async index(req: Request, res: Response) {
+    try {
+      const alarms = await AlarmService.get();
+      return res.json({ alarms });
     } catch (error) {
       return res.sendStatus(500);
     }
