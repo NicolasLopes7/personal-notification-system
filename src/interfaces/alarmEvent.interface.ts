@@ -6,7 +6,7 @@ export interface CreateAlarmEventDTO {
   deviceId: number;
 }
 
-export interface updateAlarmEventDTO {
+export interface UpdateAlarmEventDTO {
   id: number;
   payload: {
     interacted: boolean;
@@ -20,4 +20,9 @@ export interface updateAlarmEventDTO {
     createdAt?: boolean;
     updatedAt?: boolean;
   };
+}
+
+export interface BulkUpdateAlarmEventDTO
+  extends Omit<UpdateAlarmEventDTO, 'id' | 'attributes'> {
+  ids: number[];
 }

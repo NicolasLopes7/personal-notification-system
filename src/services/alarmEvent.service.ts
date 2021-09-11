@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { CreateAlarmEventDTO, updateAlarmEventDTO } from '../interfaces/alarmEvent.interface';
+import {
+  BulkUpdateAlarmEventDTO,
+  CreateAlarmEventDTO,
+  UpdateAlarmEventDTO,
+} from '../interfaces/alarmEvent.interface';
 const prisma = new PrismaClient();
 
 class AlarmEventService {
@@ -8,14 +12,27 @@ class AlarmEventService {
     return alarmEvent;
   }
 
-  async update({ id, payload, attributes }: updateAlarmEventDTO) {
-    const alarm = await prisma.alarm.update({
+  async update({ id, payload, attributes }: UpdateAlarmEventDTO) {
+    const alarmEvent = await prisma.alarmEvent.update({
       data: payload,
       where: { id },
       select: attributes,
     });
 
-    return alarm;
+    return alarmEvent;
+  }
+
+  async bulkUpdate({ ids, payload }: BulkUpdateAlarmEventDTO) {
+    const updatedAlarmEvents = await prisma.alarmEvent.updateMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      data: payload,
+    });
+
+    return updatedAlarmEvents;
   }
 }
 

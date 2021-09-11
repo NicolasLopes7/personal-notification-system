@@ -62,7 +62,7 @@ class AlarmController {
     if (!interacted) {
       //send message to telegram
     }
-    
+
     const alarm = (await AlarmService.update({
       id: Number(id),
       payload: {
@@ -73,14 +73,12 @@ class AlarmController {
       },
     })) as UpdateAlarm;
 
-    await Promise.all(
-      alarm.alarmEvents.map((alarmEvent) =>
-        AlarmEventService.update({
-          id: alarmEvent.id,
-          payload: { interacted: true },
-        })
-      )
-    );
+    const alarmEventIds = alarm.alarmEvents.map((alarmEvent) => alarmEvent.id);
+
+    await AlarmEventService.bulkUpdate({
+      ids: alarmEventIds,
+      payload: { interacted: true },
+    });
 
     return res.sendStatus(200);
   }
