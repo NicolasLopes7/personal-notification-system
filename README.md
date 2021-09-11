@@ -51,8 +51,8 @@ If the user interact with the notification meanwhile, set the property `interact
 - [x] Add bull board to debug the redis queues
 - [x] Make the process redis queue function add new jobs when is recurrent
 - [x] Create basic README
-- [ ] Add interacted field on `AlarmEvent` model
-- [ ] Add finished field on `Alarm` model
+- [x] Add interacted field on `AlarmEvent` model
+- [x] Add finished field on `Alarm` model
 - [ ] Create postback for the computer device worker
 - [ ] Create the Telegram bot
 - [ ] Create a class that allows to send a message for Telegram=
