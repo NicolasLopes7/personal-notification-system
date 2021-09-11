@@ -3,12 +3,41 @@
 ### This project allows you to never forget your appointments, habits and things that you need to do.
 
 First of all, the system will send a push notification for your computer, if you don't interact,
-will send for your cellphone, and if the priority is high and you doesn't interacted with both
+will send for your cellphone, and if the priority is high and you doesn't `interacted` with both
 the system will call you.
 
-## How it works 💫:
-First of all let's describe what we're using. We're using redis to manage the background jobs, MQTT for publish in a topic, 
-TODO:
+## How it works 💫
+What i'm using: 
+ - **Redis** to manage the background jobs, the feature of delay is the core of our system.
+ - **MQTT** for publish in a topic.
+ - **Prisma w/ postgres** to manage the alarms.
+ - **Typescript** to have a consistent code.
+ - **Express-validator** to validate the request bodies, queries and params as a middleware.
+ - **Bull** to manage the redis jobs.
+ - **Moment** to get easier work with dates 🥵
+
+Basically, we've the HTTP endpoint `POST /alarm` that expect to receive in their body these params:
+```json
+{
+	"name": "Name of the alarm",
+	"alarmDate": "A date ISO8601 valid",
+	"recurrent": "boolean",
+	"weekend": "boolean"
+}
+```
+After that, a job delayed (diff in MS between now and the `alarmDate`) will be sent to Redis on `AlarmQueue`.
+On the function execution, it will verify if is `recurrent`, and have the `weekend` param as true.
+  - `recurrent: true` and `weekend: false`: Will reschedule the next alarm to 1 day after.
+  - `recurrent: true` and `weekend: true`: Will reschedule the next alarm to the next weekday.
+    - if the actual day is saturday, will reschedule in 2 days.
+    - if the actual day is sunday, will reschedule in 1 day.
+
+When finnaly the process function of the queue are executed, it publish in a `MQTT topic` with the suffix as the `deviceId`.
+The slave module (worker) will be subscribed on this topic, and when them receive a message, will show a notification on computer screen for along 10 seconds.
+If the user interact with the notification meanwhile, set the property `interacted` as true, else set as false. After that, the slave will send a postback for
+`POST /alarm/postback:id` passing the alarmId on the URL param, and the property `interacted` on the request body. If `interacted` is false, the service will send a message to telegram and will notify on the cellphone.
+
+### TODO:
 
 - [x] Create models
 - [x] Configurate Dockerfile
