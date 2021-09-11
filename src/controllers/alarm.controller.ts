@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import AlarmService from '../services/alarm.service';
 import AlarmEventService from '../services/alarmEvent.service';
+import TelegramService from '../services/telegram.service';
 
 type UpdateAlarm = { alarmEvents: [{ id: number }] };
-
+type getAlarmName = { name: string };
 class AlarmController {
   async create(req: Request, res: Response) {
     const { recurrent, weekend, ...payload } = req.body;
@@ -60,7 +61,11 @@ class AlarmController {
     const { interacted } = req.body;
 
     if (!interacted) {
-      //send message to telegram
+      const alarm = (await AlarmService.get(Number(id), {
+        name: true,
+      })) as getAlarmName;
+
+      await TelegramService.sendMessage(alarm.name);
     }
 
     const alarm = (await AlarmService.update({

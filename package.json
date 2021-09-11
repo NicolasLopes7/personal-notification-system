@@ -15,6 +15,7 @@
     "@types/moment": "^2.13.0",
     "@types/mqtt": "^2.5.0",
     "@types/node": "^16.7.13",
+    "@types/node-telegram-bot-api": "^0.51.4",
     "nodemon": "^2.0.12",
     "prisma": "3.0.1",
     "ts-node": "^10.2.1",
@@ -29,6 +30,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
     "moment": "^2.29.1",
-    "mqtt": "^4.2.8"
+    "mqtt": "^4.2.8",
+    "node-telegram-bot-api": "^0.54.0"
   }
 }

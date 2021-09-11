@@ -1,4 +1,5 @@
-import { DeviceType } from '.prisma/client';
+import { AlarmEvent, DeviceType } from '.prisma/client';
+import { Attributes } from './common.interface';
 
 export interface CreateAlarmEventDTO {
   type: DeviceType;
@@ -11,15 +12,7 @@ export interface UpdateAlarmEventDTO {
   payload: {
     interacted: boolean;
   };
-  attributes?: {
-    id?: boolean;
-    type?: boolean;
-    alarmId?: boolean;
-    deviceId?: boolean;
-    interacted?: boolean;
-    createdAt?: boolean;
-    updatedAt?: boolean;
-  };
+  attributes?: Attributes<AlarmEvent>;
 }
 
 export interface BulkUpdateAlarmEventDTO

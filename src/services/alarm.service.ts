@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Alarm } from '@prisma/client';
 import {
   CreateAlarmDTO,
   GetAlarmDTO,
@@ -7,6 +7,7 @@ import {
 
 import DeviceService from './device.service';
 import AlarmQueueService from './alarmQueue.service';
+import { Attributes } from '../interfaces/common.interface';
 
 const prisma = new PrismaClient();
 class AlarmService {
@@ -28,10 +29,18 @@ class AlarmService {
     return alarm;
   }
 
-  async get(id?: number) {
-    const alarms = await prisma.alarm.findMany({
-      include: { alarmEvents: true },
+  async get(id?: number, attributes?: Attributes<Alarm>) {
+    const alarms = await prisma.alarm.findUnique({
       where: { id },
+      select: attributes,
+    });
+
+    return alarms;
+  }
+
+  async index(attributes: Attributes<Alarm>) {
+    const alarms = await prisma.alarm.findMany({
+      select: attributes,
     });
 
     return alarms;

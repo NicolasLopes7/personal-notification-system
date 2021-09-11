@@ -1,5 +1,8 @@
-import { DeviceType } from '.prisma/client';
+import { Alarm, DeviceType } from '.prisma/client';
 import moment from 'moment';
+import { Attributes } from './common.interface';
+
+type UpdateAlarmDTOAttributes = Attributes<Alarm> & { alarmEvents: boolean };
 
 export interface CreateAlarmDTO {
   payload: {
@@ -25,17 +28,7 @@ export interface UpdateAlarmDTO {
     weekend?: boolean;
     finished?: boolean;
   };
-  attributes?: {
-    id?: boolean;
-    name?: boolean;
-    alarmDate?: boolean;
-    recurrent?: boolean;
-    weekend?: boolean;
-    finished?: boolean;
-    alarmEvents?: boolean;
-    createdAt?: boolean;
-    updatedAt?: boolean;
-  };
+  attributes?: UpdateAlarmDTOAttributes;
 }
 
 export interface AddAlarmJobDTO {
