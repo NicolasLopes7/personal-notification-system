@@ -60,32 +60,38 @@ class AlarmController {
     const { id } = req.params;
     const { interacted } = req.body;
 
-    if (!interacted) {
-      const alarm = (await AlarmService.get(Number(id), {
-        name: true,
-      })) as getAlarmName;
+    try {
+      if (!interacted) {
+        const alarm = (await AlarmService.get(Number(id), {
+          name: true,
+        })) as getAlarmName;
 
-      await TelegramService.sendMessage(alarm.name);
+        await TelegramService.sendMessage(alarm.name);
+      }
+
+      const alarm = (await AlarmService.update({
+        id: Number(id),
+        payload: {
+          finished: true,
+        },
+        attributes: {
+          alarmEvents: true,
+        },
+      })) as UpdateAlarm;
+
+      const alarmEventIds = alarm.alarmEvents.map(
+        (alarmEvent) => alarmEvent.id
+      );
+
+      await AlarmEventService.bulkUpdate({
+        ids: alarmEventIds,
+        payload: { interacted: true },
+      });
+
+      return res.sendStatus(200);
+    } catch (error) {
+      return res.sendStatus(500)
     }
-
-    const alarm = (await AlarmService.update({
-      id: Number(id),
-      payload: {
-        finished: true,
-      },
-      attributes: {
-        alarmEvents: true,
-      },
-    })) as UpdateAlarm;
-
-    const alarmEventIds = alarm.alarmEvents.map((alarmEvent) => alarmEvent.id);
-
-    await AlarmEventService.bulkUpdate({
-      ids: alarmEventIds,
-      payload: { interacted: true },
-    });
-
-    return res.sendStatus(200);
   }
 }
 

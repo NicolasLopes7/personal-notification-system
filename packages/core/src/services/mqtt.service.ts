@@ -9,7 +9,6 @@ class MQTTService {
 
   public sendMessageToTopic(topic: string | number, message: string) {
     if (this.client.connected) {
-      console.log(`${process.env.MQTT_BASE_TOPIC}/${topic}`);
       return this.client.publish(
         `${process.env.MQTT_BASE_TOPIC}/${topic}`,
         message

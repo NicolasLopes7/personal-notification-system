@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  database:
+    container_name: personal-notification-database
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+    - ${DB_PORT}:5432
+
+  redis-queue:
+    container_name: personal-notification-redis
+    image: redis
+    command: redis-server
+    ports:
+    - 6379:6379
