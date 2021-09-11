@@ -11,13 +11,21 @@ TODO:
 - [x] Create models
 - [x] Configurate Dockerfile
 - [x] Setup Typescript and Prisma
-- [ ] Create Alarm CRUD
+- [x] Create Alarm CRUD
 - [x] Create device CRUD
-- [ ] Create pre-post hooks to deal with the push notification sending
-- [ ] Create a web view for the system
-- [ ] Think'bout the way that i'll send push notification for cellphone (need to works in android and iOS)
-- [ ] Create beautiful README
+- [x] Create Alarm Queue for redis
+- [x] Add redis on docker-compose
+- [x] Create function to process the Alarm Queue
+- [x] Create the MQTT publisher
+- [x] Add bull board to debug the redis queues
+- [x] Make the process redis queue function add new jobs when is recurrent
 - [x] Create basic README
+- [ ] Create postback for the computer device worker
+- [ ] Create the Telegram bot
+- [ ] Create a class that allows to send a message for Telegram
+- [ ] Add interacted field on `AlarmEvent` model
+- [ ] Add finished field on `Alarm` model
+- [ ] Create beautiful README
 
 ## How to run
 
@@ -30,6 +38,6 @@ Ensure that you have node.js and docker setupped,
 - Run `yarn dev`
 - Your application are running 😃
 
->  if you're not on MacOS system, remove the line 8 of `prisma/schema.prisma` with the content `binaryTargets = ["native"]`
+>  if you're not on MacOS system, remove the line 8 of `prisma/schema.prisma` with `binaryTargets = ["native"]`
 
 > You can install [node](https://nodejs.org/en/) and [docker](https://docs.docker.com/desktop/windows/install/) in these links
