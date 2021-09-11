@@ -6,6 +6,8 @@ First of all, the system will send a push notification for your computer, if you
 will send for your cellphone, and if the priority is high and you doesn't interacted with both
 the system will call you.
 
+## How it works 💫:
+First of all let's describe what we're using. We're using redis to manage the background jobs, MQTT for publish in a topic, 
 TODO:
 
 - [x] Create models
@@ -25,6 +27,14 @@ TODO:
 - [ ] Create a class that allows to send a message for Telegram
 - [ ] Add interacted field on `AlarmEvent` model
 - [ ] Add finished field on `Alarm` model
+- [ ] Turn this repo in a monorepo
+- [ ] Create the computer slave
+  - [ ] Create the mqtt subscriber
+  - [ ] setup `node-notifier`
+  - [ ] Add to readme how to setup the `node-notifier`
+  - [ ] Create a notificationService
+  - [ ] Handle in notificationService, if the user interact with the notification
+  - [ ] When the notification disappear, send a postback to the core-service
 - [ ] Create beautiful README
 
 ## How to run
