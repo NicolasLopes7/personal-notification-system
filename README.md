@@ -68,14 +68,13 @@ Ensure that you have node.js and docker setupped,
 - [x] Add interacted field on `AlarmEvent` model
 - [x] Add finished field on `Alarm` model
 - [x] Create postback for the computer device worker
-- [x] Create the Telegram bot
+- [ ] Create the Telegram bot
 - [x] Create a service that allows to send a message for Telegram
-- [ ] Turn this repo in a monorepo
-- [ ] Create the computer worker module
-  - [ ] Create the mqtt subscriber
-  - [ ] setup `node-notifier`
-  - [ ] Add to readme how to setup the `node-notifier`
-  - [ ] Create a notificationService
-  - [ ] Handle in notificationService, if the user interact with the notification
-  - [ ] When the notification disappear, send a postback to the core-service
+- [x] Turn this repo in a monorepo
+- [x] Create the computer worker module
+  - [x] Create the mqtt subscriber
+  - [x] setup `node-notifier`
+  - [x] Create a notificationService
+  - [x] Handle in notificationService, if the user interact with the notification
+  - [x] When the notification disappear, send a postback to the core-service
 - [ ] Create beautiful README
